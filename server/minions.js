@@ -5,7 +5,6 @@ module.exports = minionsRouter;
 
 // import from server/db.js
 const {
-    createMeeting,
     getAllFromDatabase,
     getFromDatabaseById,
     addToDatabase,
@@ -14,6 +13,15 @@ const {
     deleteAllFromDatabase,
 } = require('./db');
 
+minionsRouter.param('minionId', (req, res, next, id) => {
+   const Minion = getFromDatabaseById('Minion', id);
+   if (Minion) {
+       req.minion = minion;
+       next();
+   } else {
+       res.status(404).send();
+   }
+});
 
 // Get all Minions
 minionsRouter.get('/', (req, res, next) => {
