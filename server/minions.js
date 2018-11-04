@@ -1,5 +1,4 @@
-const express = requ
-const minionsRouter = require('./minions');
+const minionsRouter = require('express').Router();
 
 module.exports = minionsRouter;
 
@@ -14,9 +13,9 @@ const {
 } = require('./db');
 
 minionsRouter.param('minionId', (req, res, next, id) => {
-   const Minion = getFromDatabaseById('Minion', id);
+   const Minion = getFromDatabaseById('minion', id);
    if (Minion) {
-       req.minion = minion;
+       req.minion = Minion;
        next();
    } else {
        res.status(404).send();
@@ -25,23 +24,16 @@ minionsRouter.param('minionId', (req, res, next, id) => {
 
 // Get all Minions
 minionsRouter.get('/', (req, res, next) => {
-    res.send(getAllFromDatabase('minions'));
+    res.send(getAllFromDatabase('minion'));
 });
 
 // Get one Minion
-minionsRouter.get('/:id', (req, res, next) => {
-    const Minion = getFromDatabaseById(req.params.id, minionsRouter);
-    if (Minion) {
-        res.send(Minion);
-    } else {
-        res.status(404).send();
-    }
+minionsRouter.get('/:minionId', (req, res, next) => {
+    res.send(req.minion);
 });
 
 // Update an Minion
-minionsRouter.put('/:id', (req, res, next) => {
-    const updateMinion = updateInstanceInDatabase('minions', req.params.id);
-    if (receivedMinion) {
-
+minionsRouter.put('/:minionId', (req, res, next) => {
+    const updateMinion = updateInstanceInDatabase('minion', req.params.id);
     }
-});
+);
