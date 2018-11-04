@@ -32,8 +32,25 @@ minionsRouter.get('/:minionId', (req, res, next) => {
     res.send(req.minion);
 });
 
+// Create a new Minion
+minionsRouter.post('/', (req, res, next) => {
+  const newMinion = addToDatabase('minion', req.body);
+  res.status(204).send(newMinion);
+});
+
 // Update an Minion
 minionsRouter.put('/:minionId', (req, res, next) => {
-    const updateMinion = updateInstanceInDatabase('minion', req.params.id);
+    const updateMinion = updateInstanceInDatabase('minion', req.body);
+    res.send(updateMinion);
+});
+
+// Delete a minion
+minionsRouter.delete('/:minionId', (req, res, next) => {
+    const deleteMinion = deleteFromDatabasebyId('/:minionId', req.params.minionId);
+    if (deleteMinion) {
+      res.status(204);
+    } else {
+      res.status(500);
     }
-);
+    res.send();
+});
